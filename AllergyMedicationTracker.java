@@ -10,7 +10,7 @@ public class AllergyMedicationTracker {
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to the Allergy and Medication Tracker");
+            System.out.println("Welcome to PillPal!");
             System.out.println("1. Log In");
             System.out.println("2. Register");
             System.out.println("3. Exit");
@@ -22,7 +22,7 @@ public class AllergyMedicationTracker {
             } else if (choice.equals("2")) {
                 register(scanner);
             } else if (choice.equals("3")) {
-                System.out.println("Goodbye!");
+                System.out.println("Thank you for choosing PillPal!");
                 running = false;
             } else {
                 System.out.println("Invalid option. Please choose again.");
