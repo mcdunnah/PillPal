@@ -1,5 +1,6 @@
 import java.util.*;
 
+// Main class for managing users and providing menu options
 public class AllergyMedicationTracker {
     private static final String[] VALID_UNITS = {"hour", "day", "week", "month", "year"};
     private static HashMap<String, User> userDatabase = new HashMap<>(); // Simulates a database of users
@@ -14,17 +15,17 @@ public class AllergyMedicationTracker {
             System.out.println("2. Register");
             System.out.println("3. Exit");
             System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline
+            String choice = scanner.nextLine();
 
-            switch (choice) {
-                case 1 -> logIn(scanner);
-                case 2 -> register(scanner);
-                case 3 -> {
-                    System.out.println("Goodbye!");
-                    running = false;
-                }
-                default -> System.out.println("Invalid option. Please choose again.");
+            if (choice.equals("1")) {
+                logIn(scanner);
+            } else if (choice.equals("2")) {
+                register(scanner);
+            } else if (choice.equals("3")) {
+                System.out.println("Goodbye!");
+                running = false;
+            } else {
+                System.out.println("Invalid option. Please choose again.");
             }
         }
 
@@ -76,21 +77,25 @@ public class AllergyMedicationTracker {
             System.out.println("6. View Medications");
             System.out.println("7. Log Out");
             System.out.print("Choose an option: ");
-            int option = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline
+            String option = scanner.nextLine();
 
-            switch (option) {
-                case 1 -> addAllergy(scanner, user);
-                case 2 -> removeAllergy(scanner, user);
-                case 3 -> user.displayAllergies();
-                case 4 -> addMedication(scanner, user);
-                case 5 -> removeMedication(scanner, user);
-                case 6 -> user.displayMedications();
-                case 7 -> {
-                    System.out.println("Logging out...");
-                    loggedIn = false;
-                }
-                default -> System.out.println("Invalid option. Please try again.");
+            if (option.equals("1")) {
+                addAllergy(scanner, user);
+            } else if (option.equals("2")) {
+                removeAllergy(scanner, user);
+            } else if (option.equals("3")) {
+                user.displayAllergies();
+            } else if (option.equals("4")) {
+                addMedication(scanner, user);
+            } else if (option.equals("5")) {
+                removeMedication(scanner, user);
+            } else if (option.equals("6")) {
+                user.displayMedications();
+            } else if (option.equals("7")) {
+                System.out.println("Logging out...");
+                loggedIn = false;
+            } else {
+                System.out.println("Invalid option. Please try again.");
             }
         }
     }
@@ -100,18 +105,13 @@ public class AllergyMedicationTracker {
         System.out.print("Enter the allergy: ");
         String allergy = scanner.nextLine();
         user.addAllergy(allergy);
-        System.out.println("Allergy added.");
     }
 
     // Remove an allergy for a user
     private static void removeAllergy(Scanner scanner, User user) {
         System.out.print("Enter the allergy to remove: ");
         String allergy = scanner.nextLine();
-        if (user.removeAllergy(allergy)) {
-            System.out.println("Allergy removed.");
-        } else {
-            System.out.println("Allergy not found.");
-        }
+        user.removeAllergy(allergy);
     }
 
     // Add a medication for a user
@@ -125,7 +125,6 @@ public class AllergyMedicationTracker {
         String frequency = getValidatedFrequency(scanner);
         Medication medication = new Medication(medName, dosage, frequency);
         user.addMedication(medication);
-        System.out.println("Medication added.");
     }
 
     // Remove a medication for a user
@@ -133,7 +132,6 @@ public class AllergyMedicationTracker {
         System.out.print("Enter the name of the medication to remove: ");
         String medName = scanner.nextLine();
         user.removeMedication(medName);
-        System.out.println("Medication removed.");
     }
 
     // Get and validate the medication frequency
@@ -176,12 +174,5 @@ public class AllergyMedicationTracker {
         }
 
         return timesPerUnit + " times per " + unit;
-    }
-
-    // Helper function to handle yes/no input with "y"/"n" options
-    private static boolean getYesNoInput(Scanner scanner, String prompt) {
-        System.out.print(prompt + " (y/n): ");
-        String input = scanner.nextLine().trim().toLowerCase();
-        return input.equals("y") || input.equals("yes");
     }
 }

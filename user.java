@@ -20,19 +20,46 @@ class User {
     }
 
     public void addAllergy(String allergy) {
-        allergies.add(allergy);
+        if (!allergies.contains(allergy.toLowerCase())) {
+            allergies.add(allergy.toLowerCase());
+            System.out.println("Allergy added.");
+        } else {
+            System.out.println("Allergy already exists.");
+        }
     }
 
     public void addMedication(Medication medication) {
-        medications.add(medication);
+        boolean exists = false;
+        for (Medication med : medications) {
+            if (med.getName().equalsIgnoreCase(medication.getName())) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (!exists) {
+            medications.add(medication);
+            System.out.println("Medication added.");
+        } else {
+            System.out.println("Medication already exists.");
+        }
     }
 
     public void removeAllergy(String allergy) {
-        allergies.remove(allergy);
+        if (allergies.remove(allergy.toLowerCase())) {
+            System.out.println("Allergy removed.");
+        } else {
+            System.out.println("Allergy not found.");
+        }
     }
 
     public void removeMedication(String medName) {
-        medications.removeIf(med -> med.getName().equalsIgnoreCase(medName));
+        boolean removed = medications.removeIf(med -> med.getName().equalsIgnoreCase(medName));
+        if (removed) {
+            System.out.println("Medication removed.");
+        } else {
+            System.out.println("Medication not found.");
+        }
     }
 
     public void displayAllergies() {
