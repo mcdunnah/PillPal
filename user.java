@@ -1,3 +1,5 @@
+import java.util.*;
+
 class User {
     private String name;
     private ArrayList<String> allergies = new ArrayList<>();
