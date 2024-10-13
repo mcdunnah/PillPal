@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Medication {
     private String name;
     private int dosage; // number of tablets/pills
