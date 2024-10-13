@@ -1,9 +1,9 @@
-import java.util.*; 
+import java.util.*;
 
 class Medication {
     private String name;
     private int dosage; // number of tablets/pills
-    private String frequency; // how often it's taken
+    private String frequency; // formatted as "X times per unit"
 
     public Medication(String name, int dosage, String frequency) {
         this.name = name;
