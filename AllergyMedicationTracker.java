@@ -10,7 +10,7 @@ public class AllergyMedicationTracker {
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to PillPal");
+            System.out.println("Welcome to the Allergy and Medication Tracker");
             System.out.println("1. Log In");
             System.out.println("2. Register");
             System.out.println("3. Exit");
@@ -22,7 +22,7 @@ public class AllergyMedicationTracker {
             } else if (choice.equals("2")) {
                 register(scanner);
             } else if (choice.equals("3")) {
-                System.out.println("Thank you for choosing PillPal!");
+                System.out.println("Goodbye!");
                 running = false;
             } else {
                 System.out.println("Invalid option. Please choose again.");
@@ -61,10 +61,12 @@ public class AllergyMedicationTracker {
             User newUser = new User(name, password);
             userDatabase.put(name, newUser);
             System.out.println("Registration successful!");
+            // Automatically log the user in after registration
+            showUserMenu(scanner, newUser);
         }
     }
 
-    // Menu options for managing a user's allergies and medications
+    // Menu options for managing a user's allergies, medications, and symptoms
     private static void showUserMenu(Scanner scanner, User user) {
         boolean loggedIn = true;
         while (loggedIn) {
@@ -75,7 +77,9 @@ public class AllergyMedicationTracker {
             System.out.println("4. Add Medication");
             System.out.println("5. Remove Medication");
             System.out.println("6. View Medications");
-            System.out.println("7. Log Out");
+            System.out.println("7. Log Symptoms");
+            System.out.println("8. View Symptoms Log");
+            System.out.println("9. Log Out");
             System.out.print("Choose an option: ");
             String option = scanner.nextLine();
 
@@ -92,6 +96,10 @@ public class AllergyMedicationTracker {
             } else if (option.equals("6")) {
                 user.displayMedications();
             } else if (option.equals("7")) {
+                logSymptoms(scanner, user);
+            } else if (option.equals("8")) {
+                user.displaySymptomsLog();
+            } else if (option.equals("9")) {
                 System.out.println("Logging out...");
                 loggedIn = false;
             } else {
@@ -134,6 +142,15 @@ public class AllergyMedicationTracker {
         user.removeMedication(medName);
     }
 
+    // Log symptoms for a user
+    private static void logSymptoms(Scanner scanner, User user) {
+        String date = getValidatedDate(scanner);  // Get a valid date
+        System.out.print("Enter your symptoms: ");
+        String symptoms = scanner.nextLine();
+        user.addSymptoms(date, symptoms);
+        System.out.println("Symptoms logged successfully.");
+    }
+
     // Get and validate the medication frequency
     private static String getValidatedFrequency(Scanner scanner) {
         System.out.println("Enter how often the medication is taken.");
@@ -174,5 +191,24 @@ public class AllergyMedicationTracker {
         }
 
         return timesPerUnit + " times per " + unit;
+    }
+
+    // Get and validate the date in month/day/year format
+    private static String getValidatedDate(Scanner scanner) {
+        String date = "";
+        boolean validDate = false;
+
+        // Continue to prompt until a valid date format is entered
+        while (!validDate) {
+            System.out.print("Enter today's date (MM/DD/YYYY): ");
+            date = scanner.nextLine();
+            if (date.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                validDate = true;
+            } else {
+                System.out.println("Invalid date format. Please use MM/DD/YYYY.");
+            }
+        }
+
+        return date;
     }
 }
